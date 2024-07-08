@@ -9,7 +9,8 @@ from pinecone import Pinecone
 # Get Pinecone API key from system environment variables
 key = os.getenv("Pinecone_Api_key")
 if key is None:
-    raise ValueError("Pinecone API key not found in environment variables")
+    st.error("Pinecone API key not found in environment variables")
+    st.stop()
 
 # Connect to Pinecone DB
 pc = Pinecone(api_key=key)
@@ -31,18 +32,37 @@ chain = load_qa_chain(llm=llm, chain_type="stuff")
 
 # Define the function to get the model's answer
 def model_answer(user_input):
-    doc_search = matching_results(user_input)
-    response = chain.run(input_documents=doc_search, question=user_input)
-    return response
+    try:
+        doc_search = matching_results(user_input)
+        response = chain.run(input_documents=doc_search, question=user_input)
+        return response
+    except Exception as e:
+        return f"An error occurred: {e}"
 
 # Streamlit UI
-st.title("PDF Q&A Chat BOT")
+st.set_page_config(page_title="PDF Q&A Chatbot", page_icon=":robot_face:")
 
-quotation = st.text_input("Enter your Query:")
+st.title("PDF Q&A Chatbot")
+st.subheader("Ask any question related to the documents and get instant answers!")
 
-if quotation:
-  # Get the model's answer
-  answer = model_answer(quotation)
-  response_data = answer
-  # Display the answer on Streamlit UI
-  st.write(response_data)
+with st.form(key="query_form"):
+    quotation = st.text_area("Enter your Query:", height=150)
+    submit_button = st.form_submit_button(label="Submit")
+
+if submit_button and quotation:
+    with st.spinner("Processing your query..."):
+        answer = model_answer(quotation)
+    st.write("### Answer")
+    st.write(answer)
+
+st.markdown("""
+    <style>
+    .stTextArea, .stButton>button {
+        width: 100%;
+        font-size: 18px;
+    }
+    .stMarkdown {
+        font-size: 18px;
+    }
+    </style>
+    """, unsafe_allow_html=True)
