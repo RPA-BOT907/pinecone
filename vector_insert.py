@@ -5,6 +5,7 @@ from PyPDF2 import PdfReader
 import time
 from pinecone import Pinecone, ServerlessSpec
 from langchain_core.documents import Document  # Add this import
+import os
 
 # Load PDF file
 pdf_path = "C:\\Users\\haris\\OneDrive\\Desktop\\Child-Budget_removed.pdf"
@@ -39,8 +40,12 @@ dimension = len(sample_embedding)
 print(sample_embedding)
 print(f"The dimension of the embeddings is: {dimension}")
 
+
+#get key from env
+key = os.getenv("Pinecone_Api_key")
+
 # Pinecone setup
-pinecone_api_key = "937db33d-7d21-41b6-932f-bb76eb462178"
+pinecone_api_key = key
 pc = Pinecone(api_key=pinecone_api_key)
 
 index_name = "langchain"
