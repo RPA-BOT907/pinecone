@@ -12,12 +12,15 @@ pdf_path = "C:\\Users\\haris\\OneDrive\\Desktop\\Child-Budget_removed.pdf"
 # Initialize the PDF reader
 pdf_file = PdfReader(pdf_path)
 
+
+
 # Read text from PDF
 raw_text = ''
 for i, page in enumerate(pdf_file.pages):
     content = page.extract_text()
     if content:
         raw_text += content
+
 
 #text splitting
 text_splitter = CharacterTextSplitter(
@@ -27,12 +30,16 @@ text_splitter = CharacterTextSplitter(
     length_function = len,
 )
 
-text = text_splitter.split_text(raw_text)
 
+text = text_splitter.split_text(raw_text)
 docs = [Document(page_content=texts) for texts in text]
+
+
 
 # Text embedding using OllamaEmbeddings
 ollama_emb = OllamaEmbeddings(model="nomic-embed-text")
+
+
 
 de=ollama_emb.embed_query("Sample text")
 
@@ -54,8 +61,10 @@ pc = Pinecone(api_key=pinecone_api_key)
 
 
 index_name = "langchain"  # change if desired
-
 existing_indexes = [index_info["name"] for index_info in pc.list_indexes()]
+
+
+
 
 if index_name not in existing_indexes:
     pc.create_index(
@@ -73,8 +82,9 @@ else:
     print("Index already exists")
 
 
-""""
- #store vectors in DB
+
+
+#store vectors in DB
 from langchain_pinecone import PineconeVectorStore
 index_names="langchain"
 vectorstore = PineconeVectorStore.from_documents(
@@ -84,8 +94,5 @@ vectorstore = PineconeVectorStore.from_documents(
         
 )
 
-
-
-print("hello")
+print("Vectors stored in Pinecone")
 print(vectorstore)
-"""

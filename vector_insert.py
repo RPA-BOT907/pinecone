@@ -39,7 +39,6 @@ dimension = len(sample_embedding)
 print(sample_embedding)
 print(f"The dimension of the embeddings is: {dimension}")
 
-""""
 # Pinecone setup
 pinecone_api_key = "937db33d-7d21-41b6-932f-bb76eb462178"
 pc = Pinecone(api_key=pinecone_api_key)
@@ -70,4 +69,3 @@ vectorstore = PineconeVectorStore.from_documents(
 
 print("Vectors stored in Pinecone")
 print(vectorstore)
-"""
