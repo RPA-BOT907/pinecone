@@ -12,7 +12,7 @@ if key is None:
     st.error("Pinecone API key not found in environment variables")
     st.stop()
 
-# Connect to Pinecone DB
+# Connect to Pinecone DB.
 pc = Pinecone(api_key=key)
 index = pc.Index("langchain")
 
