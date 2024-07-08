@@ -8,7 +8,7 @@ from langchain_core.documents import Document  # Add this import
 import os
 
 # Load PDF file
-pdf_path = "C:\\Users\\haris\\OneDrive\\Desktop\\Child-Budget_removed.pdf"
+pdf_path = "C:\\Users\\haris\\OneDrive\Desktop\\Langchain\\pinecone\\Documents\\BUDGET 2023-2024.pdf"
 pdf_file = PdfReader(pdf_path)
 
 # Read text from PDF
