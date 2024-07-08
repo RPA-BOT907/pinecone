@@ -1,0 +1,6 @@
+langchain 
+pinecone
+langchain-community
+pypdf
+langchain_pinecone
+streamlit
