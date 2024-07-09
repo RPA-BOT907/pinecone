@@ -1,6 +1,6 @@
 import os
 import streamlit as st
-from langchain_community.llms import Ollama 
+from langchain_community.llms import ollama 
 from langchain.chains.question_answering import load_qa_chain
 from langchain_pinecone import PineconeVectorStore
 from langchain_community.embeddings import OllamaEmbeddings
@@ -25,7 +25,7 @@ def matching_results(query, k=2):
     return vectorstore.similarity_search(query, k=k)
 
 # Initialize the LLM model
-llm = Ollama(model="mistral")
+llm = ollama(model="mistral")
 
 # Create the QA chain
 chain = load_qa_chain(llm=llm, chain_type="stuff")
